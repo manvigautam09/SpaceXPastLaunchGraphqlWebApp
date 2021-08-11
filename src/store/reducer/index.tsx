@@ -1,3 +1,5 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-export default combineReducers({});
+import pastLaunchesReducer from './pastLaunchesReducer';
+
+export default combineReducers({ pastLaunches: pastLaunchesReducer });

@@ -1,6 +1,8 @@
-import { all } from "redux-saga/effects";
+import { all } from 'redux-saga/effects';
 
-export const tasks = [];
+import pastLaunchesSagas from './PastLaunches';
+
+export const tasks = [...pastLaunchesSagas];
 
 function* rootSaga() {
   yield all(tasks);
