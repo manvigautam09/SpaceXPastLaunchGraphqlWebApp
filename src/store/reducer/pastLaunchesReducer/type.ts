@@ -11,6 +11,7 @@ interface CoresFirstStage {
     status: string;
   };
 }
+
 interface PayloadSecondStage {
   payload_mass_kg: number;
   payload_mass_lbs: number;
@@ -24,6 +25,7 @@ interface Ships {
 }
 
 export interface PastLaunchDetails {
+  id: string;
   launch_date_local: string;
   launch_site: {
     site_name_long: string;
