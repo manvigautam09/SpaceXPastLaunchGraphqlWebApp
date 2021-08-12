@@ -1,8 +1,20 @@
 import { gql } from 'graphql-request';
 
 export const GET_SPACE_X_PAST_LAUNCHES_QUERY = gql`
-  query launchesPast {
-    launchesPast {
+  query launchesPast(
+    $find: LaunchFind
+    $limit: Int
+    $offset: Int
+    $order: String
+    $sort: String
+  ) {
+    launchesPast(
+      find: $find
+      limit: $limit
+      offset: $offset
+      order: $order
+      sort: $sort
+    ) {
       id
       mission_name
       launch_date_local

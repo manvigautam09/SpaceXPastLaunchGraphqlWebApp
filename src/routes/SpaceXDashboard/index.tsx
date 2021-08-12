@@ -1,12 +1,16 @@
 import React, { useMemo } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import GenericTable from '../../components/shared/GenericTable';
 
 import {
   useGetPastLunchesActions,
   useGetPastLunchesDetailsHook
 } from '../../store/hooks/pastLaunches';
-import { tableRowHeadingOptions } from '../../utils/appConstants';
+import {
+  tableLimitValues,
+  tableRowHeadingOptions
+} from '../../utils/appConstants';
 
 const Header = styled.div`
   display: flex;
@@ -20,7 +24,7 @@ const SpaceXDashboard = () => {
     useGetPastLunchesDetailsHook();
 
   useEffect(() => {
-    fetchPastLaunchesRequestHandler();
+    fetchPastLaunchesRequestHandler({ offset: 0, limit: tableLimitValues[0] });
   }, [fetchPastLaunchesRequestHandler]);
 
   const rowHeadingOptions = useMemo(() => {
@@ -40,24 +44,10 @@ const SpaceXDashboard = () => {
         <h1>SpaceX Past Missions</h1>
       </Header>
       {fetchingPastLaunches && <div>Loading</div>}
-      <table>
-        <thead>
-          <tr>
-            {tableRowHeadingOptions.map((item) => {
-              return <th key={item.value}>{item.label}</th>;
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {rowHeadingOptions.map((rowDetail) => (
-            <tr key={rowDetail.id}>
-              {tableRowHeadingOptions.map((item) => (
-                <td key={item.label}>{rowDetail[item.value]}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <GenericTable
+        rowHeadingOptions={rowHeadingOptions}
+        tableRowHeadingOptions={tableRowHeadingOptions}
+      />
     </React.Fragment>
   );
 };

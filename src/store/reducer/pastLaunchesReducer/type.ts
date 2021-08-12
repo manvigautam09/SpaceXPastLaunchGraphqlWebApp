@@ -4,6 +4,11 @@ import {
   fetchPastMissionsFailure
 } from '../../actions/fetchPastMissionsActions';
 
+export interface PastMissionsRequestPayload {
+  offset?: number;
+  limit?: number;
+}
+
 interface CoresFirstStage {
   flight: number;
   core: {
@@ -47,9 +52,18 @@ export interface PastLaunchDetails {
   ships: Ships[];
 }
 
+interface MissionsFilters {
+  missionName: string;
+  rocketName: string;
+}
 export interface PastLaunchesState {
   pastLaunchesData: PastLaunchDetails[];
   fetchingPastLaunches: boolean;
+  totalPages: number;
+  currentPage: number;
+  filterDetails: MissionsFilters;
+  limit: number;
+  offset: number;
 }
 
 export type PastLaunchesActions = ReturnType<

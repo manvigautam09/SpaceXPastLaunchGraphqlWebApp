@@ -1,18 +1,26 @@
 import actionsTypes from '../actionTypes';
-import { PastLaunchDetails } from '../reducer/pastLaunchesReducer/type';
+import {
+  PastLaunchDetails,
+  PastMissionsRequestPayload
+} from '../reducer/pastLaunchesReducer/type';
 
-export const fetchPastMissionsRequest = () => {
+export const fetchPastMissionsRequest = (
+  payload: PastMissionsRequestPayload
+) => {
   return <const>{
-    type: actionsTypes.GET_PAST_MISSIONS_REQUEST
+    type: actionsTypes.GET_PAST_MISSIONS_REQUEST,
+    payload
   };
 };
 
 export const fetchPastMissionsSuccess = (payload: {
   pastLaunchesList: PastLaunchDetails[];
+  totalPages: number;
+  currentPage: number;
 }) => {
   return <const>{
     type: actionsTypes.GET_PAST_MISSIONS_SUCCESS,
-    payload: payload
+    payload
   };
 };
 

@@ -12,3 +12,6 @@ export const tableRowHeadingOptions = [
     value: 'missionName'
   }
 ];
+
+export const TOTAL_PAST_MISSIONS = 109;
+export const tableLimitValues: number[] = [10, 20];

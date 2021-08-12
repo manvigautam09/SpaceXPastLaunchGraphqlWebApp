@@ -1,10 +1,20 @@
 import { pathOr } from 'ramda';
+
+import { tableLimitValues } from '../../../utils/appConstants';
 import actionTypes from '../../actionTypes';
 import { PastLaunchesActions, PastLaunchesState } from './type';
 
 const initialState: PastLaunchesState = {
   pastLaunchesData: [],
-  fetchingPastLaunches: false
+  fetchingPastLaunches: false,
+  totalPages: 0,
+  currentPage: 0,
+  filterDetails: {
+    missionName: '',
+    rocketName: ''
+  },
+  limit: tableLimitValues[0],
+  offset: 0
 };
 
 function pastLaunchesReducer(
@@ -19,7 +29,9 @@ function pastLaunchesReducer(
       return {
         ...state,
         fetchingPastLaunches: false,
-        pastLaunchesData: pathOr([], ['payload', 'pastLaunchesList'], action)
+        pastLaunchesData: pathOr([], ['payload', 'pastLaunchesList'], action),
+        totalPages: pathOr([], ['payload', 'totalPages'], action),
+        currentPage: pathOr([], ['payload', 'currentPage'], action)
       };
 
     case actionTypes.GET_PAST_MISSIONS_FAILURE:
