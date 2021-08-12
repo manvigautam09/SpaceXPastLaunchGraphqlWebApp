@@ -2,5 +2,6 @@ import { StoreState } from '../types';
 
 export const pastLaunchesDetailsSelector = (state: StoreState) => ({
   pastLaunchesData: state.pastLaunches.pastLaunchesData,
-  fetchingPastLaunches: state.pastLaunches.fetchingPastLaunches
+  fetchingPastLaunches: state.pastLaunches.fetchingPastLaunches,
+  filterDetails: state.pastLaunches.filterDetails
 });

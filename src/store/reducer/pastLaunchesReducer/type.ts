@@ -7,6 +7,7 @@ import {
 export interface PastMissionsRequestPayload {
   offset?: number;
   limit?: number;
+  filterDetails?: MissionsFilters;
 }
 
 interface CoresFirstStage {
@@ -52,7 +53,7 @@ export interface PastLaunchDetails {
   ships: Ships[];
 }
 
-interface MissionsFilters {
+export interface MissionsFilters {
   missionName: string;
   rocketName: string;
 }

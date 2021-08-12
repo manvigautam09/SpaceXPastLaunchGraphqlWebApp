@@ -1,15 +1,15 @@
 export const tableRowHeadingOptions = [
   {
-    label: 'Launched on',
-    value: 'launchDate'
-  },
-  {
-    label: 'Rocket',
+    label: 'Rocket Name',
     value: 'rocketName'
   },
   {
     label: 'Mission Name',
     value: 'missionName'
+  },
+  {
+    label: 'Launched on',
+    value: 'launchDate'
   }
 ];
 
