@@ -30,11 +30,15 @@ function pastLaunchesReducer(
         ...state,
         fetchingPastLaunches: false,
         pastLaunchesData: pathOr([], ['payload', 'pastLaunchesList'], action),
-        totalPages: pathOr([], ['payload', 'totalPages'], action),
-        currentPage: pathOr([], ['payload', 'currentPage'], action),
-        filterDetails: pathOr([], ['payload', 'filterDetails'], action),
-        limit: pathOr([], ['payload', 'limit'], action),
-        offset: pathOr([], ['payload', 'offset'], action)
+        totalPages: pathOr(0, ['payload', 'totalPages'], action),
+        currentPage: pathOr(0, ['payload', 'currentPage'], action),
+        filterDetails: pathOr(
+          { missionName: '', rocketName: '' },
+          ['payload', 'filterDetails'],
+          action
+        ),
+        limit: pathOr(0, ['payload', 'limit'], action),
+        offset: pathOr(0, ['payload', 'offset'], action)
       };
 
     case actionTypes.GET_PAST_MISSIONS_FAILURE:
