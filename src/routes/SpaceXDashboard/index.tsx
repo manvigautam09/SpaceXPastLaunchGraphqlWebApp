@@ -20,8 +20,12 @@ const Header = styled.div`
 `;
 
 const SpaceXDashboard = () => {
-  const { setLimit, setOffset, fetchPastLaunchesRequestHandler } =
-    useGetPastLunchesActionsHook();
+  const {
+    setLimit,
+    setOffset,
+    onSubmitFilters,
+    fetchPastLaunchesRequestHandler
+  } = useGetPastLunchesActionsHook();
   const {
     pastLaunchesData,
     fetchingPastLaunches,
@@ -66,7 +70,10 @@ const SpaceXDashboard = () => {
         <div>Loading</div>
       ) : (
         <React.Fragment>
-          <PastLaunchFilters filterDetails={filterDetails} />
+          <PastLaunchFilters
+            filterDetails={filterDetails}
+            onSubmitFilters={onSubmitFilters}
+          />
           <GenericTable
             rowHeadingOptions={rowHeadingOptions}
             tableRowHeadingOptions={tableRowHeadingOptions}

@@ -5,6 +5,7 @@ import { MissionsFilters } from '../../store/reducer/pastLaunchesReducer/type';
 
 interface PastLaunchFilterProps {
   filterDetails: MissionsFilters;
+  onSubmitFilters: (filterDetails: MissionsFilters) => void;
 }
 
 const FilterContainer = styled.div`
@@ -53,10 +54,10 @@ const StyledButton = styled.button`
 `;
 
 const PastLaunchFilters = (props: PastLaunchFilterProps) => {
-  const { filterDetails } = props;
+  const { filterDetails, onSubmitFilters } = props;
 
-  const [missionName, setMissionName] = useState('');
-  const [rocketName, setRocketName] = useState('');
+  const [missionName, setMissionName] = useState(filterDetails.missionName);
+  const [rocketName, setRocketName] = useState(filterDetails.rocketName);
 
   const isSubmitResetDisabled = useMemo(
     () =>
@@ -88,9 +89,19 @@ const PastLaunchFilters = (props: PastLaunchFilterProps) => {
       </FiltersDetail>
 
       <SubmitResetFilters>
-        <StyledButton disabled={isSubmitResetDisabled}>Submit</StyledButton>
+        <StyledButton
+          disabled={isSubmitResetDisabled}
+          onClick={() => onSubmitFilters({ missionName, rocketName })}
+        >
+          Submit
+        </StyledButton>
         <SpaceDiv />
-        <StyledButton disabled={isSubmitResetDisabled}>Reset</StyledButton>
+        <StyledButton
+          disabled={isSubmitResetDisabled}
+          onClick={() => onSubmitFilters({ missionName: '', rocketName: '' })}
+        >
+          Reset
+        </StyledButton>
       </SubmitResetFilters>
     </FilterContainer>
   );

@@ -1,9 +1,12 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { pastLaunchesDetailsSelector } from '../selectors/pastLauches';
+import {
+  MissionsFilters,
+  PastMissionsRequestPayload
+} from '../reducer/pastLaunchesReducer/type';
+import { pastLaunchesDetailsSelector } from '../selectors/pastLaunches';
 import { fetchPastMissionsRequest } from '../actions/fetchPastMissionsActions';
-import { PastMissionsRequestPayload } from '../reducer/pastLaunchesReducer/type';
 
 export const useGetPastLunchesDetailsHook = () => {
   return useSelector(pastLaunchesDetailsSelector);
@@ -33,5 +36,17 @@ export const useGetPastLunchesActionsHook = () => {
     [fetchPastLaunchesRequestHandler]
   );
 
-  return { setLimit, setOffset, fetchPastLaunchesRequestHandler };
+  const onSubmitFilters = useCallback(
+    (filterDetails: MissionsFilters) => {
+      fetchPastLaunchesRequestHandler({ filterDetails });
+    },
+    [fetchPastLaunchesRequestHandler]
+  );
+
+  return {
+    setLimit,
+    setOffset,
+    fetchPastLaunchesRequestHandler,
+    onSubmitFilters
+  };
 };
