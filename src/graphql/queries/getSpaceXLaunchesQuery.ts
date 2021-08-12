@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from 'graphql-request';
 
 export const GET_SPACE_X_PAST_LAUNCHES_QUERY = gql`
   query launchesPast {

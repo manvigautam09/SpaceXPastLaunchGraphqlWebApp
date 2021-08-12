@@ -1,4 +1,5 @@
 import actionsTypes from '../actionTypes';
+import { PastLaunchDetails } from '../reducer/pastLaunchesReducer/type';
 
 export const fetchPastMissionsRequest = () => {
   return <const>{
@@ -6,9 +7,12 @@ export const fetchPastMissionsRequest = () => {
   };
 };
 
-export const fetchPastMissionsSuccess = () => {
+export const fetchPastMissionsSuccess = (payload: {
+  pastLaunchesList: PastLaunchDetails[];
+}) => {
   return <const>{
-    type: actionsTypes.GET_PAST_MISSIONS_SUCCESS
+    type: actionsTypes.GET_PAST_MISSIONS_SUCCESS,
+    payload: payload
   };
 };
 
