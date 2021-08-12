@@ -5,10 +5,13 @@ import PastLaunchFilters from '../../components/PastLaunchFilters';
 import GenericTable from '../../components/shared/GenericTable';
 
 import {
-  useGetPastLunchesActions,
+  useGetPastLunchesActionsHook,
   useGetPastLunchesDetailsHook
 } from '../../store/hooks/pastLaunches';
-import { tableRowHeadingOptions } from '../../utils/appConstants';
+import {
+  tableRowHeadingOptions,
+  TOTAL_PAST_MISSIONS
+} from '../../utils/appConstants';
 
 const Header = styled.div`
   display: flex;
@@ -17,9 +20,17 @@ const Header = styled.div`
 `;
 
 const SpaceXDashboard = () => {
-  const { fetchPastLaunchesRequestHandler } = useGetPastLunchesActions();
-  const { pastLaunchesData, fetchingPastLaunches, filterDetails } =
-    useGetPastLunchesDetailsHook();
+  const { setLimit, setOffset, fetchPastLaunchesRequestHandler } =
+    useGetPastLunchesActionsHook();
+  const {
+    pastLaunchesData,
+    fetchingPastLaunches,
+    filterDetails,
+    limit,
+    offset,
+    totalPages,
+    currentPage
+  } = useGetPastLunchesDetailsHook();
 
   useEffect(() => {
     fetchPastLaunchesRequestHandler({});
@@ -29,12 +40,22 @@ const SpaceXDashboard = () => {
     return pastLaunchesData.map((tableItem) => {
       return {
         id: tableItem.id,
-        launchDate: tableItem.launch_date_local,
+        launchDate: new Date(tableItem.launch_date_local).toDateString(),
         rocketName: tableItem.rocket.rocket_name,
         missionName: tableItem.mission_name
       };
     });
   }, [pastLaunchesData]);
+
+  const tablePaginationDetails = {
+    limit,
+    offset,
+    totalPages,
+    totalItems: TOTAL_PAST_MISSIONS,
+    currentPage,
+    setLimit,
+    setOffset
+  };
 
   return (
     <React.Fragment>
@@ -49,6 +70,7 @@ const SpaceXDashboard = () => {
           <GenericTable
             rowHeadingOptions={rowHeadingOptions}
             tableRowHeadingOptions={tableRowHeadingOptions}
+            tablePaginationDetails={tablePaginationDetails}
           />
         </React.Fragment>
       )}

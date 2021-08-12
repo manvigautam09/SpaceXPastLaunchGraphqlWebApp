@@ -54,7 +54,8 @@ const StyledTable = styled.table`
 `;
 
 const GenericTable = (props: GenericTableProps) => {
-  const { tableRowHeadingOptions, rowHeadingOptions } = props;
+  const { tableRowHeadingOptions, rowHeadingOptions, tablePaginationDetails } =
+    props;
 
   return (
     <React.Fragment>
@@ -76,7 +77,17 @@ const GenericTable = (props: GenericTableProps) => {
           ))}
         </tbody>
       </StyledTable>
-      <Pagination />
+      {tablePaginationDetails && (
+        <Pagination
+          limit={tablePaginationDetails.limit}
+          offset={tablePaginationDetails.offset}
+          totalItems={tablePaginationDetails.totalItems}
+          totalPages={tablePaginationDetails.totalPages}
+          currentPage={tablePaginationDetails.currentPage}
+          setLimit={tablePaginationDetails.setLimit}
+          setOffset={tablePaginationDetails.setOffset}
+        />
+      )}
     </React.Fragment>
   );
 };

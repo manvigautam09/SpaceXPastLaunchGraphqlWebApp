@@ -31,7 +31,7 @@ function* fetchPastLaunchesSaga(
 
     const data = {
       totalPages: Math.ceil(TOTAL_PAST_MISSIONS / variables.limit),
-      currentPage: (variables.offset + limit) / variables.limit,
+      currentPage: (variables.offset + variables.limit) / variables.limit,
       pastLaunchesList: pathOr([], ['launchesPast'], res),
       limit: variables.limit,
       offset: variables.offset,

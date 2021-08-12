@@ -9,7 +9,7 @@ export const useGetPastLunchesDetailsHook = () => {
   return useSelector(pastLaunchesDetailsSelector);
 };
 
-export const useGetPastLunchesActions = () => {
+export const useGetPastLunchesActionsHook = () => {
   const dispatch = useDispatch();
 
   const fetchPastLaunchesRequestHandler = useCallback(
@@ -19,5 +19,19 @@ export const useGetPastLunchesActions = () => {
     [dispatch]
   );
 
-  return { fetchPastLaunchesRequestHandler };
+  const setLimit = useCallback(
+    (val: number) => {
+      fetchPastLaunchesRequestHandler({ limit: val });
+    },
+    [fetchPastLaunchesRequestHandler]
+  );
+
+  const setOffset = useCallback(
+    (val: number) => {
+      fetchPastLaunchesRequestHandler({ offset: val });
+    },
+    [fetchPastLaunchesRequestHandler]
+  );
+
+  return { setLimit, setOffset, fetchPastLaunchesRequestHandler };
 };
