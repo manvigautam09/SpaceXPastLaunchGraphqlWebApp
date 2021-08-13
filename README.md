@@ -44,3 +44,13 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Visualization
+
+I visualized the past launches just like records or list of data with all the details, so went for a table, highlighting the main details (Launch Date, Mission Name and Rocket Name) of a Launch.
+
+To manage huge records of data, I added pagination as well.
+
+Also added a comparison feature where any two launches could be compared side by side at a time.
+
+If I had more time would have definitely worked on the table part, maybe used some other form that could display a Launch in more detail, and include pagination and filters, maybe added some more columns to the table and would have worked on some ui/ux improvement.

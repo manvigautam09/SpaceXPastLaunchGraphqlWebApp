@@ -98,8 +98,8 @@ const PastLaunchFilters = (props: PastLaunchFilterProps) => {
     () =>
       filterDetails.missionName === missionName &&
       filterDetails.rocketName === rocketName &&
-      missionName.length !== 0 &&
-      rocketName.length !== 0,
+      missionName.length === 0 &&
+      rocketName.length === 0,
     [missionName, rocketName, filterDetails]
   );
 
