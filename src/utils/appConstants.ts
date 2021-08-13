@@ -1,5 +1,9 @@
 export const tableRowHeadingOptions = [
   {
+    label: 'Compare',
+    value: 'compareCheckboxValues'
+  },
+  {
     label: 'Rocket Name',
     value: 'rocketName'
   },

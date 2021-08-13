@@ -10,7 +10,7 @@ interface PastLaunchFilterProps {
 
 const FilterContainer = styled.div`
   display: flex;
-  padding: 20px 10px;
+  padding: 5px 10px;
   flex-direction: column;
   align-items: flex-end;
 `;

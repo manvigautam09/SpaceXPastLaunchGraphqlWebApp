@@ -1,8 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
   MissionsFilters,
+  PastLaunchDetails,
   PastMissionsRequestPayload
 } from '../reducer/pastLaunchesReducer/type';
 import { pastLaunchesDetailsSelector } from '../selectors/pastLaunches';
@@ -14,6 +15,9 @@ export const useGetPastLunchesDetailsHook = () => {
 
 export const useGetPastLunchesActionsHook = () => {
   const dispatch = useDispatch();
+  const [itemsToCompareList, setItemsToCompareList] = useState<
+    PastLaunchDetails[]
+  >([]);
 
   const fetchPastLaunchesRequestHandler = useCallback(
     (payload: PastMissionsRequestPayload) => {
@@ -25,6 +29,7 @@ export const useGetPastLunchesActionsHook = () => {
   const setLimit = useCallback(
     (val: number) => {
       fetchPastLaunchesRequestHandler({ limit: val });
+      setItemsToCompareList([]);
     },
     [fetchPastLaunchesRequestHandler]
   );
@@ -32,6 +37,7 @@ export const useGetPastLunchesActionsHook = () => {
   const setOffset = useCallback(
     (val: number) => {
       fetchPastLaunchesRequestHandler({ offset: val });
+      setItemsToCompareList([]);
     },
     [fetchPastLaunchesRequestHandler]
   );
@@ -39,14 +45,17 @@ export const useGetPastLunchesActionsHook = () => {
   const onSubmitFilters = useCallback(
     (filterDetails: MissionsFilters) => {
       fetchPastLaunchesRequestHandler({ filterDetails });
+      setItemsToCompareList([]);
     },
     [fetchPastLaunchesRequestHandler]
   );
 
   return {
+    itemsToCompareList,
     setLimit,
     setOffset,
-    fetchPastLaunchesRequestHandler,
-    onSubmitFilters
+    onSubmitFilters,
+    setItemsToCompareList,
+    fetchPastLaunchesRequestHandler
   };
 };

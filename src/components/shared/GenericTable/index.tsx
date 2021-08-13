@@ -13,6 +13,7 @@ interface GenericTableProps {
     launchDate: string;
     rocketName: string;
     missionName: string;
+    link: string;
   }[];
   tablePaginationDetails?: {
     limit: number;
@@ -34,6 +35,7 @@ const StyledTable = styled.table`
   th {
     border: none;
     padding: 15px 20px;
+    text-align: left;
   }
 
   td {
@@ -41,6 +43,7 @@ const StyledTable = styled.table`
   }
 
   tbody tr {
+    cursor: pointer;
     :nth-of-type(odd) {
       background-color: #efefef;
     }
@@ -50,7 +53,15 @@ const StyledTable = styled.table`
   }
   thead > tr {
     background-color: #c2c2c2;
+    position: sticky;
+    top: 0;
   }
+`;
+
+const TableContainer = styled.div`
+  overflow-y: auto;
+  max-height: 60vh;
+  position: relative;
 `;
 
 const GenericTable = (props: GenericTableProps) => {
@@ -59,24 +70,29 @@ const GenericTable = (props: GenericTableProps) => {
 
   return (
     <React.Fragment>
-      <StyledTable>
-        <thead>
-          <tr>
-            {tableRowHeadingOptions.map((item) => {
-              return <th key={item.value}>{item.label}</th>;
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {rowHeadingOptions.map((rowDetail) => (
-            <tr key={rowDetail.id}>
-              {tableRowHeadingOptions.map((item) => (
-                <td key={item.label}>{rowDetail[item.value]}</td>
-              ))}
+      <TableContainer>
+        <StyledTable>
+          <thead>
+            <tr>
+              {tableRowHeadingOptions.map((item) => {
+                return <th key={item.value}>{item.label}</th>;
+              })}
             </tr>
-          ))}
-        </tbody>
-      </StyledTable>
+          </thead>
+          <tbody>
+            {rowHeadingOptions.map((rowDetail) => (
+              <tr
+                key={rowDetail.id}
+                onClick={() => window.open(rowDetail.link)}
+              >
+                {tableRowHeadingOptions.map((item) => (
+                  <td key={item.label}>{rowDetail[item.value]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </StyledTable>
+      </TableContainer>
       {tablePaginationDetails && (
         <Pagination
           limit={tablePaginationDetails.limit}

@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { useEffect } from 'react';
+import React, { useMemo, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import PastLaunchFilters from '../../components/PastLaunchFilters';
 import GenericTable from '../../components/shared/GenericTable';
@@ -8,6 +7,7 @@ import {
   useGetPastLunchesActionsHook,
   useGetPastLunchesDetailsHook
 } from '../../store/hooks/pastLaunches';
+import { PastLaunchDetails } from '../../store/reducer/pastLaunchesReducer/type';
 import {
   tableRowHeadingOptions,
   TOTAL_PAST_MISSIONS
@@ -19,11 +19,19 @@ const Header = styled.div`
   padding: 30px;
 `;
 
+const Checkbox = styled.input`
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+`;
+
 const SpaceXDashboard = () => {
   const {
+    itemsToCompareList,
     setLimit,
     setOffset,
     onSubmitFilters,
+    setItemsToCompareList,
     fetchPastLaunchesRequestHandler
   } = useGetPastLunchesActionsHook();
   const {
@@ -40,16 +48,60 @@ const SpaceXDashboard = () => {
     fetchPastLaunchesRequestHandler({});
   }, [fetchPastLaunchesRequestHandler]);
 
+  const getCheckBoxValue = useCallback(
+    (tableItem: PastLaunchDetails) => {
+      if (itemsToCompareList.length === 0) {
+        return false;
+      } else {
+        let value = false;
+        itemsToCompareList.forEach((item) => {
+          if (tableItem.id === item.id) {
+            value = true;
+          }
+        });
+        return value;
+      }
+    },
+    [itemsToCompareList]
+  );
+
   const rowHeadingOptions = useMemo(() => {
     return pastLaunchesData.map((tableItem) => {
       return {
         id: tableItem.id,
         launchDate: new Date(tableItem.launch_date_local).toDateString(),
         rocketName: tableItem.rocket.rocket_name,
-        missionName: tableItem.mission_name
+        missionName: tableItem.mission_name,
+        link: tableItem.links.video_link,
+        compareCheckboxValues: (
+          <Checkbox
+            type="checkbox"
+            checked={getCheckBoxValue(tableItem)}
+            onClick={(e) => e.stopPropagation()}
+            onChange={(e) => {
+              e.stopPropagation();
+              if (getCheckBoxValue(tableItem)) {
+                setItemsToCompareList(
+                  itemsToCompareList.filter((item) => item.id !== tableItem.id)
+                );
+              } else {
+                if (itemsToCompareList.length < 2) {
+                  setItemsToCompareList([...itemsToCompareList, tableItem]);
+                } else {
+                  setItemsToCompareList([tableItem]);
+                }
+              }
+            }}
+          />
+        )
       };
     });
-  }, [pastLaunchesData]);
+  }, [
+    getCheckBoxValue,
+    pastLaunchesData,
+    itemsToCompareList,
+    setItemsToCompareList
+  ]);
 
   const tablePaginationDetails = {
     limit,
@@ -74,6 +126,7 @@ const SpaceXDashboard = () => {
             filterDetails={filterDetails}
             onSubmitFilters={onSubmitFilters}
           />
+
           <GenericTable
             rowHeadingOptions={rowHeadingOptions}
             tableRowHeadingOptions={tableRowHeadingOptions}

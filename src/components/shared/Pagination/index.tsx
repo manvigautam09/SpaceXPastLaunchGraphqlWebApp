@@ -18,6 +18,10 @@ const PageNumberDetails = styled.div`
   margin-left: 16px;
 `;
 
+const DropDown = styled.select`
+  margin-left: 16px;
+`;
+
 interface PaginationProps {
   limit: number;
   offset: number;
@@ -64,10 +68,9 @@ const Pagination = (props: PaginationProps) => {
   return (
     <PaginationContainer>
       Rows per page:
-      <select
+      <DropDown
         name="Limit"
         id="limit"
-        className="ml-4"
         value={limit}
         onChange={(e) => setLimit(Number(e.target.value))}
       >
@@ -76,18 +79,27 @@ const Pagination = (props: PaginationProps) => {
             {item}
           </option>
         ))}
-      </select>
+      </DropDown>
       <PageNumberDetails>
         {currentPageLimits.lowerLimit}-{currentPageLimits.upperLimit} of{' '}
         {totalItems}
       </PageNumberDetails>
       <Icons.LeftArrow
         onClick={goToPreviousPage}
-        // className={previousIconClass}
+        style={{
+          marginLeft: 16,
+          opacity: currentPage <= 1 ? 0.2 : 1,
+          cursor: currentPage <= 1 ? 'default' : 'pointer'
+        }}
       />
       <Icons.RightArrow
         onClick={goToNextPage}
-        // className={nextIconClass}
+        style={{
+          marginLeft: 32,
+          marginRight: 16,
+          opacity: currentPage >= totalPages ? 0.2 : 1,
+          cursor: currentPage >= totalPages ? 'default' : 'pointer'
+        }}
       />
     </PaginationContainer>
   );
