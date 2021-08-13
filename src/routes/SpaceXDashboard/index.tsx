@@ -125,6 +125,7 @@ const SpaceXDashboard = () => {
           <PastLaunchFilters
             filterDetails={filterDetails}
             onSubmitFilters={onSubmitFilters}
+            itemsToCompareList={itemsToCompareList}
           />
 
           <GenericTable

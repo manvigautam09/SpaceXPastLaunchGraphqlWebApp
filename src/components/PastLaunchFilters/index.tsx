@@ -1,18 +1,24 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import Modal from 'react-modal';
 import styled from 'styled-components';
 
-import { MissionsFilters } from '../../store/reducer/pastLaunchesReducer/type';
+import {
+  MissionsFilters,
+  PastLaunchDetails
+} from '../../store/reducer/pastLaunchesReducer/type';
+import ModalContent from '../ModalContent';
 
 interface PastLaunchFilterProps {
   filterDetails: MissionsFilters;
+  itemsToCompareList: PastLaunchDetails[];
   onSubmitFilters: (filterDetails: MissionsFilters) => void;
 }
 
 const FilterContainer = styled.div`
   display: flex;
   padding: 5px 10px;
-  flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
+  justify-content: space-between;
 `;
 
 const FiltersDetail = styled.div`
@@ -53,8 +59,25 @@ const StyledButton = styled.button`
   cursor: ${(props) => (props.disabled ? 'no-drop' : 'pointer')};
 `;
 
+const FilterArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
+
 const PastLaunchFilters = (props: PastLaunchFilterProps) => {
-  const { filterDetails, onSubmitFilters } = props;
+  const { filterDetails, itemsToCompareList, onSubmitFilters } = props;
 
   const [missionName, setMissionName] = useState(filterDetails.missionName);
   const [rocketName, setRocketName] = useState(filterDetails.rocketName);
@@ -66,43 +89,66 @@ const PastLaunchFilters = (props: PastLaunchFilterProps) => {
     [missionName, rocketName, filterDetails]
   );
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const closeModal = useCallback(() => setIsOpen(false), []);
+
   return (
     <FilterContainer>
-      <FiltersDetail>
-        <FilterDetail>
-          <StyledLabel>Mission Name</StyledLabel>
-          <StyledInput
-            value={missionName}
-            placeholder="Enter Mission Name"
-            onChange={(e) => setMissionName(e.target.value)}
-          />
-        </FilterDetail>
-        <SpaceDiv />
-        <FilterDetail>
-          <StyledLabel>Rocket Name</StyledLabel>
-          <StyledInput
-            value={rocketName}
-            placeholder="Enter  Rocket Name"
-            onChange={(e) => setRocketName(e.target.value)}
-          />
-        </FilterDetail>
-      </FiltersDetail>
+      <StyledButton
+        disabled={itemsToCompareList.length < 2}
+        onClick={() => {
+          if (itemsToCompareList.length === 2) {
+            setIsOpen(true);
+          }
+        }}
+      >
+        Compare
+      </StyledButton>
+      <FilterArea>
+        <FiltersDetail>
+          <FilterDetail>
+            <StyledLabel>Mission Name</StyledLabel>
+            <StyledInput
+              value={missionName}
+              placeholder="Enter Mission Name"
+              onChange={(e) => setMissionName(e.target.value)}
+            />
+          </FilterDetail>
+          <SpaceDiv />
+          <FilterDetail>
+            <StyledLabel>Rocket Name</StyledLabel>
+            <StyledInput
+              value={rocketName}
+              placeholder="Enter  Rocket Name"
+              onChange={(e) => setRocketName(e.target.value)}
+            />
+          </FilterDetail>
+        </FiltersDetail>
 
-      <SubmitResetFilters>
-        <StyledButton
-          disabled={isSubmitResetDisabled}
-          onClick={() => onSubmitFilters({ missionName, rocketName })}
-        >
-          Submit
-        </StyledButton>
-        <SpaceDiv />
-        <StyledButton
-          disabled={isSubmitResetDisabled}
-          onClick={() => onSubmitFilters({ missionName: '', rocketName: '' })}
-        >
-          Reset
-        </StyledButton>
-      </SubmitResetFilters>
+        <SubmitResetFilters>
+          <StyledButton
+            disabled={isSubmitResetDisabled}
+            onClick={() => onSubmitFilters({ missionName, rocketName })}
+          >
+            Submit
+          </StyledButton>
+          <SpaceDiv />
+          <StyledButton
+            disabled={isSubmitResetDisabled}
+            onClick={() => onSubmitFilters({ missionName: '', rocketName: '' })}
+          >
+            Reset
+          </StyledButton>
+        </SubmitResetFilters>
+      </FilterArea>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        ariaHideApp={false}
+      >
+        <ModalContent itemsToCompareList={itemsToCompareList} />
+      </Modal>
     </FilterContainer>
   );
 };
