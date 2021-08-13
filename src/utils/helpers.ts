@@ -33,14 +33,12 @@ export const getVariableToSend = (
       offset: 0,
       limit: payload.limit ? payload.limit : limitFromState,
       find: {
-        mission_name:
-          payload.filterDetails && payload.filterDetails.missionName.length > 0
-            ? payload.filterDetails.missionName
-            : filterDetailsFromState.missionName,
-        rocket_name:
-          payload.filterDetails && payload.filterDetails.rocketName.length > 0
-            ? payload.filterDetails.rocketName
-            : filterDetailsFromState.rocketName
+        mission_name: payload.filterDetails
+          ? payload.filterDetails.missionName
+          : filterDetailsFromState.missionName,
+        rocket_name: payload.filterDetails
+          ? payload.filterDetails.rocketName
+          : filterDetailsFromState.rocketName
       }
     };
   }

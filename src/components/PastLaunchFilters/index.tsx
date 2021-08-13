@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
 
@@ -82,10 +82,24 @@ const PastLaunchFilters = (props: PastLaunchFilterProps) => {
   const [missionName, setMissionName] = useState(filterDetails.missionName);
   const [rocketName, setRocketName] = useState(filterDetails.rocketName);
 
-  const isSubmitResetDisabled = useMemo(
+  useEffect(() => {
+    setMissionName(filterDetails.missionName);
+    setRocketName(filterDetails.rocketName);
+  }, [filterDetails.missionName, filterDetails.rocketName]);
+
+  const isSubmitDisabled = useMemo(
     () =>
       filterDetails.missionName === missionName &&
       filterDetails.rocketName === rocketName,
+    [missionName, rocketName, filterDetails]
+  );
+
+  const isResetDisabled = useMemo(
+    () =>
+      filterDetails.missionName === missionName &&
+      filterDetails.rocketName === rocketName &&
+      missionName.length !== 0 &&
+      rocketName.length !== 0,
     [missionName, rocketName, filterDetails]
   );
 
@@ -127,14 +141,14 @@ const PastLaunchFilters = (props: PastLaunchFilterProps) => {
 
         <SubmitResetFilters>
           <StyledButton
-            disabled={isSubmitResetDisabled}
+            disabled={isSubmitDisabled}
             onClick={() => onSubmitFilters({ missionName, rocketName })}
           >
             Submit
           </StyledButton>
           <SpaceDiv />
           <StyledButton
-            disabled={isSubmitResetDisabled}
+            disabled={isResetDisabled}
             onClick={() => onSubmitFilters({ missionName: '', rocketName: '' })}
           >
             Reset
