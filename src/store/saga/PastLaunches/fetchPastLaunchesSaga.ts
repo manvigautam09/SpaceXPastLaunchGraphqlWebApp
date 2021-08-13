@@ -15,13 +15,11 @@ import { GET_SPACE_X_PAST_LAUNCHES_QUERY } from '../../../graphql/queries';
 function* fetchPastLaunchesSaga(
   action: ReturnType<typeof fetchPastMissionsRequest>
 ) {
-  console.log('###action', action.payload);
   const { limit, filterDetails } = yield select((state: StoreState) => ({
     limit: state.pastLaunches.limit,
     filterDetails: state.pastLaunches.filterDetails
   }));
   const variables = getVariableToSend(limit, filterDetails, action.payload);
-  console.log('###', variables);
 
   try {
     const res: any = yield mutationOrQueryProvider(
@@ -43,7 +41,6 @@ function* fetchPastLaunchesSaga(
 
     yield put(fetchPastMissionsSuccess(data));
   } catch (error) {
-    console.log('###e', error);
     yield put(fetchPastMissionsFailure());
   }
 }

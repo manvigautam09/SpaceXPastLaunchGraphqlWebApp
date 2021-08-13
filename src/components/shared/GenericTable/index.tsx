@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Spinner from '../Spinner';
 import Pagination from '../Pagination';
 
 interface GenericTableProps {
@@ -24,6 +25,7 @@ interface GenericTableProps {
     setLimit: (val: number) => void;
     setOffset: (val: number) => void;
   };
+  loading: boolean;
 }
 
 const StyledTable = styled.table`
@@ -64,34 +66,54 @@ const TableContainer = styled.div`
   position: relative;
 `;
 
+const SpinnerContainer = styled.div`
+  display: flex;
+  height: 60vh;
+  align-items: center;
+  justify-content: center;
+`;
+
 const GenericTable = (props: GenericTableProps) => {
-  const { tableRowHeadingOptions, rowHeadingOptions, tablePaginationDetails } =
-    props;
+  const {
+    loading,
+    tableRowHeadingOptions,
+    rowHeadingOptions,
+    tablePaginationDetails
+  } = props;
 
   return (
     <React.Fragment>
       <TableContainer>
-        <StyledTable>
-          <thead>
-            <tr>
-              {tableRowHeadingOptions.map((item) => {
-                return <th key={item.value}>{item.label}</th>;
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {rowHeadingOptions.map((rowDetail) => (
-              <tr
-                key={rowDetail.id}
-                onClick={() => window.open(rowDetail.link)}
-              >
-                {tableRowHeadingOptions.map((item) => (
-                  <td key={item.label}>{rowDetail[item.value]}</td>
-                ))}
+        {loading ? (
+          <SpinnerContainer>
+            <Spinner />
+          </SpinnerContainer>
+        ) : (
+          <StyledTable>
+            <thead>
+              <tr>
+                {tableRowHeadingOptions.map((item) => {
+                  return <th key={item.value}>{item.label}</th>;
+                })}
               </tr>
-            ))}
-          </tbody>
-        </StyledTable>
+            </thead>
+            <tbody>
+              {rowHeadingOptions.map((rowDetail) => (
+                <tr
+                  key={rowDetail.id}
+                  onClick={() => window.open(rowDetail.link)}
+                >
+                  {tableRowHeadingOptions.map((item) => (
+                    <td key={item.label}>{rowDetail[item.value]}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </StyledTable>
+        )}
+        {!loading && rowHeadingOptions.length === 0 && (
+          <SpinnerContainer>No missions found</SpinnerContainer>
+        )}
       </TableContainer>
       {tablePaginationDetails && (
         <Pagination

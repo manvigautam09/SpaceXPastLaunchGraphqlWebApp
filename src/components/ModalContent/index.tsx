@@ -13,6 +13,8 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: lightgrey;
+  padding: 5px 15px;
 `;
 
 const CardsDiv = styled.div`

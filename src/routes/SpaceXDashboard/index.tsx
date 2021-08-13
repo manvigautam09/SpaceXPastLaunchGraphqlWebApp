@@ -1,17 +1,17 @@
 import React, { useMemo, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import PastLaunchFilters from '../../components/PastLaunchFilters';
-import GenericTable from '../../components/shared/GenericTable';
 
-import {
-  useGetPastLunchesActionsHook,
-  useGetPastLunchesDetailsHook
-} from '../../store/hooks/pastLaunches';
-import { PastLaunchDetails } from '../../store/reducer/pastLaunchesReducer/type';
 import {
   tableRowHeadingOptions,
   TOTAL_PAST_MISSIONS
 } from '../../utils/appConstants';
+import {
+  useGetPastLunchesActionsHook,
+  useGetPastLunchesDetailsHook
+} from '../../store/hooks/pastLaunches';
+import GenericTable from '../../components/shared/GenericTable';
+import PastLaunchFilters from '../../components/PastLaunchFilters';
+import { PastLaunchDetails } from '../../store/reducer/pastLaunchesReducer/type';
 
 const Header = styled.div`
   display: flex;
@@ -118,23 +118,20 @@ const SpaceXDashboard = () => {
       <Header>
         <h1>SpaceX Past Missions</h1>
       </Header>
-      {fetchingPastLaunches ? (
-        <div>Loading</div>
-      ) : (
-        <React.Fragment>
-          <PastLaunchFilters
-            filterDetails={filterDetails}
-            onSubmitFilters={onSubmitFilters}
-            itemsToCompareList={itemsToCompareList}
-          />
+      <React.Fragment>
+        <PastLaunchFilters
+          filterDetails={filterDetails}
+          onSubmitFilters={onSubmitFilters}
+          itemsToCompareList={itemsToCompareList}
+        />
 
-          <GenericTable
-            rowHeadingOptions={rowHeadingOptions}
-            tableRowHeadingOptions={tableRowHeadingOptions}
-            tablePaginationDetails={tablePaginationDetails}
-          />
-        </React.Fragment>
-      )}
+        <GenericTable
+          loading={fetchingPastLaunches}
+          rowHeadingOptions={rowHeadingOptions}
+          tableRowHeadingOptions={tableRowHeadingOptions}
+          tablePaginationDetails={tablePaginationDetails}
+        />
+      </React.Fragment>
     </React.Fragment>
   );
 };
